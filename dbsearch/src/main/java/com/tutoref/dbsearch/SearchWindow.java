@@ -18,13 +18,17 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JSeparator;
+import javax.swing.JSlider;
+import javax.swing.SwingConstants;
+import javax.swing.JComboBox;
+import javax.swing.JSpinner;
 
 public class SearchWindow {
 
 	private JFrame frame;
 	private JMenuBar menuBar;
 	private JTable tableResults;
-	private JTextField textField;
+	private JTextField textExpression;
 
 	/**
 	 * Launch the application.
@@ -60,32 +64,32 @@ public class SearchWindow {
 		menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("Menu");
-		menuBar.add(mnNewMenu);
+		JMenu menuMenu = new JMenu("Menu");
+		menuBar.add(menuMenu);
 		
-		JMenuItem mntmNewConnection = new JMenuItem("New connection");
-		mnNewMenu.add(mntmNewConnection);
+		JMenuItem menuItemNewConnection = new JMenuItem("New connection");
+		menuMenu.add(menuItemNewConnection);
 		
 		JSeparator separator = new JSeparator();
-		mnNewMenu.add(separator);
+		menuMenu.add(separator);
 		
-		JMenuItem mntmExportResults = new JMenuItem("Export Results");
-		mnNewMenu.add(mntmExportResults);
+		JMenuItem menuItemExportResults = new JMenuItem("Export Results");
+		menuMenu.add(menuItemExportResults);
 		
 		JSeparator separator_1 = new JSeparator();
-		mnNewMenu.add(separator_1);
+		menuMenu.add(separator_1);
 		
-		JMenuItem mntmExit = new JMenuItem("Exit");
-		mnNewMenu.add(mntmExit);
+		JMenuItem menuItemExit = new JMenuItem("Exit");
+		menuMenu.add(menuItemExit);
 		
-		JMenu menu = new JMenu("?");
-		menuBar.add(menu);
+		JMenu menuHelp = new JMenu("?");
+		menuBar.add(menuHelp);
 		
-		JMenuItem mntmHelp = new JMenuItem("Help");
-		menu.add(mntmHelp);
+		JMenuItem menuItemHelp = new JMenuItem("Help");
+		menuHelp.add(menuItemHelp);
 		
-		JMenuItem mntmAbout = new JMenuItem("About");
-		menu.add(mntmAbout);
+		JMenuItem menuItemAbout = new JMenuItem("About");
+		menuHelp.add(menuItemAbout);
 		frame.getContentPane().setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -98,34 +102,45 @@ public class SearchWindow {
 		tableResults = new JTable();
 		scrollPane.setViewportView(tableResults);
 		
-		textField = new JTextField();
-		textField.setBounds(10, 41, 291, 20);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
+		textExpression = new JTextField();
+		textExpression.setBounds(123, 20, 270, 20);
+		frame.getContentPane().add(textExpression);
+		textExpression.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Search");
-		btnNewButton.setBounds(311, 40, 89, 23);
-		frame.getContentPane().add(btnNewButton);
+		JButton btnSearch = new JButton("Search");
+		btnSearch.setBounds(405, 19, 89, 23);
+		frame.getContentPane().add(btnSearch);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Whole expression");
-		chckbxNewCheckBox.setBounds(10, 68, 135, 23);
-		frame.getContentPane().add(chckbxNewCheckBox);
+		JCheckBox chckWholeExpression = new JCheckBox("Whole expression");
+		chckWholeExpression.setBounds(405, 76, 135, 23);
+		frame.getContentPane().add(chckWholeExpression);
 		
-		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("Case sensitive");
-		chckbxNewCheckBox_1.setBounds(204, 68, 196, 23);
-		frame.getContentPane().add(chckbxNewCheckBox_1);
+		JCheckBox chckCaseSensitive = new JCheckBox("Case sensitive");
+		chckCaseSensitive.setBounds(405, 50, 196, 23);
+		frame.getContentPane().add(chckCaseSensitive);
 		
-		JCheckBox chckbxNewCheckBox_2 = new JCheckBox("Trim");
-		chckbxNewCheckBox_2.setBounds(10, 94, 97, 23);
-		frame.getContentPane().add(chckbxNewCheckBox_2);
+		JCheckBox chckTrim = new JCheckBox("Trim");
+		chckTrim.setBounds(405, 102, 97, 23);
+		frame.getContentPane().add(chckTrim);
 		
-		JLabel lblNewLabel = new JLabel("Expression : ");
-		lblNewLabel.setBounds(10, 21, 82, 19);
-		frame.getContentPane().add(lblNewLabel);
+		JLabel lblExpression = new JLabel("Expression : ");
+		lblExpression.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblExpression.setBounds(10, 21, 109, 19);
+		frame.getContentPane().add(lblExpression);
 		
-		JButton btnNewButton_1 = new JButton("Clear");
-		btnNewButton_1.setBounds(665, 507, 89, 23);
-		frame.getContentPane().add(btnNewButton_1);
+		JButton btnClear = new JButton("Clear");
+		btnClear.setBounds(665, 507, 89, 23);
+		frame.getContentPane().add(btnClear);
+		
+		JSpinner spinnerMaxConnections = new JSpinner();
+		spinnerMaxConnections.setBounds(123, 51, 55, 20);
+		spinnerMaxConnections.setValue(10);
+		frame.getContentPane().add(spinnerMaxConnections);
+		
+		JLabel lblMaxConnections = new JLabel("Max connections : ");
+		lblMaxConnections.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblMaxConnections.setBounds(10, 54, 109, 14);
+		frame.getContentPane().add(lblMaxConnections);
 	}
 
 	public JMenuBar getMenuBar() {

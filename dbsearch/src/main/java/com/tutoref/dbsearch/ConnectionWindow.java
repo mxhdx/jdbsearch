@@ -15,7 +15,7 @@ import javax.swing.JButton;
  * 
  *
  */
-public class ConnectionWin {
+public class ConnectionWindow {
 
 	private JFrame frmConnection;
 	private JTextField textHostname;
@@ -34,7 +34,7 @@ public class ConnectionWin {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ConnectionWin window = new ConnectionWin();
+					ConnectionWindow window = new ConnectionWindow();
 					window.frmConnection.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,7 +46,7 @@ public class ConnectionWin {
 	/**
 	 * Create the application.
 	 */
-	public ConnectionWin() {
+	public ConnectionWindow() {
 		initialize();
 	}
 

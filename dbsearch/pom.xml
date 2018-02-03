@@ -21,18 +21,11 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    <!--  
-    TODO add the correct djbc drivers
     <dependency>
-      <groupId>com.ibm.db2.jcc</groupId>
-      <artifactId>db2jcc4</artifactId>
-      <version>10.1</version>
-    </dependency>
-    <dependency>
-	    <groupId>com.oracle</groupId>
+	    <groupId>oracle</groupId>
 	    <artifactId>ojdbc6</artifactId>
-	    <version>11.1.0.7.0</version>
-	</dependency>
+	    <version>11.2.0.3</version>
+    </dependency>
 	<dependency>
 	    <groupId>mysql</groupId>
 	    <artifactId>mysql-connector-java</artifactId>
@@ -43,26 +36,12 @@
 	    <artifactId>postgresql</artifactId>
 	    <version>9.1-901-1.jdbc4</version>
 	</dependency>
-	-->
   </dependencies>
   
   <repositories>
-  	   <!-- DB2 drivers repository -->
-       <repository>
-           <id>com.ibm.db2.jcc</id>
-           <url>https://artifacts.alfresco.com/nexus/content/repositories/public/</url>
-       </repository>
-       <!-- Oracle Database driver repository -->
-       <repository>
-	    <id>maven.oracle.com</id>
-	    <releases>
-	      <enabled>true</enabled>
-	    </releases>
-	    <snapshots>
-	      <enabled>false</enabled>
-	    </snapshots>
-	    <url>https://maven.oracle.com</url>
-	    <layout>default</layout>
-	  </repository>
-   </repositories>
+  	<repository>
+  		<id>oracle-jdbc-repo</id>
+  		<url>http://www.datanucleus.org/downloads/maven2/</url>
+  	</repository>
+  </repositories>
 </project>
