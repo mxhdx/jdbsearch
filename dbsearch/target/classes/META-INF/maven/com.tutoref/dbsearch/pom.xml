@@ -36,12 +36,23 @@
 	    <artifactId>postgresql</artifactId>
 	    <version>9.1-901-1.jdbc4</version>
 	</dependency>
+	<dependency>
+	    <groupId>c3p0</groupId>
+	    <artifactId>c3p0</artifactId>
+	    <version>0.9.1.2</version>
+	</dependency>
   </dependencies>
+
+  
   
   <repositories>
   	<repository>
   		<id>oracle-jdbc-repo</id>
   		<url>http://www.datanucleus.org/downloads/maven2/</url>
+  	</repository>
+  	<repository>
+  		<id>c3p0-repo</id>
+  		<url>https://mvnrepository.com/artifact/c3p0/c3p0</url>
   	</repository>
   </repositories>
 </project>

@@ -12,7 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -20,7 +24,13 @@ import javax.swing.JTabbedPane;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
+
+import com.tutoref.dbsearch.config.Config;
+import com.tutoref.dbsearch.config.i18n.MessagesBundle;
+import com.tutoref.dbsearch.database.C3P0ConnectionPool;
+
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JSpinner;
 
 public class SearchWindow {
@@ -29,7 +39,9 @@ public class SearchWindow {
 	private JMenuBar menuBar;
 	private JTable tableResults;
 	private JTextField textExpression;
-
+	
+	private C3P0ConnectionPool connectionPool;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -141,9 +153,34 @@ public class SearchWindow {
 		lblMaxConnections.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblMaxConnections.setBounds(10, 54, 109, 14);
 		frame.getContentPane().add(lblMaxConnections);
+		setEnabled(false);
+		openConnectionDialog();
+		MessagesBundle messagesBundle = MessagesBundle.getMessages();
+		System.out.println(messagesBundle.getMessage("database.mysql"));
+	}
+
+	private void openConnectionDialog() {
+		if(connectionPool==null || !connectionPool.isConnected()){
+			JDialog connectionDialog = new ConnectionDialog();
+			connectionDialog.setVisible(true);
+		}
+		
 	}
 
 	public JMenuBar getMenuBar() {
 		return menuBar;
 	}
+	
+	/**
+	 * Enables or disables all the components in the main JPanel.
+	 * 
+	 * @param enabled boolean if true, enable all the components in the main JPanel, otherwise disable them.
+	 */
+	private void setEnabled(boolean enabled){
+		for(Component component: this.frame.getContentPane().getComponents()){
+			component.setEnabled(enabled);
+		}
+	}
+	
+	
 }
