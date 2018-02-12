@@ -10,28 +10,28 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.GridLayout;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
-import javax.swing.JPanel;
+
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JSeparator;
-import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 
-import com.tutoref.dbsearch.config.Config;
 import com.tutoref.dbsearch.config.i18n.MessagesBundle;
 import com.tutoref.dbsearch.database.C3P0ConnectionPool;
+import com.tutoref.dbsearch.database.ConnectionManager;
+import com.tutoref.dbsearch.util.Util;
 
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JSpinner;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.awt.event.ActionEvent;
 
 public class SearchWindow {
 
@@ -39,8 +39,13 @@ public class SearchWindow {
 	private JMenuBar menuBar;
 	private JTable tableResults;
 	private JTextField textExpression;
+	private ConnectionManager connectionManager;
+	private JCheckBox chckCaseSensitive;
+	private JCheckBox chckWholeExpression;
+	private JCheckBox chckTrim;
+	private JSpinner spinnerMaxConnections;
+	private int MAX_THREADS_DEFAULT=10;
 	
-	private C3P0ConnectionPool connectionPool;
 	
 	/**
 	 * Launch the application.
@@ -62,6 +67,7 @@ public class SearchWindow {
 	 * Create the application.
 	 */
 	public SearchWindow() {
+		connectionManager = ConnectionManager.getInstance();
 		initialize();
 	}
 
@@ -120,18 +126,23 @@ public class SearchWindow {
 		textExpression.setColumns(10);
 		
 		JButton btnSearch = new JButton("Search");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				doSearch();
+			}
+		});
 		btnSearch.setBounds(405, 19, 89, 23);
 		frame.getContentPane().add(btnSearch);
 		
-		JCheckBox chckWholeExpression = new JCheckBox("Whole expression");
+		chckWholeExpression = new JCheckBox("Whole expression");
 		chckWholeExpression.setBounds(405, 76, 135, 23);
 		frame.getContentPane().add(chckWholeExpression);
 		
-		JCheckBox chckCaseSensitive = new JCheckBox("Case sensitive");
+		chckCaseSensitive = new JCheckBox("Case sensitive");
 		chckCaseSensitive.setBounds(405, 50, 196, 23);
 		frame.getContentPane().add(chckCaseSensitive);
 		
-		JCheckBox chckTrim = new JCheckBox("Trim");
+		chckTrim = new JCheckBox("Trim");
 		chckTrim.setBounds(405, 102, 97, 23);
 		frame.getContentPane().add(chckTrim);
 		
@@ -144,9 +155,9 @@ public class SearchWindow {
 		btnClear.setBounds(665, 507, 89, 23);
 		frame.getContentPane().add(btnClear);
 		
-		JSpinner spinnerMaxConnections = new JSpinner();
+		spinnerMaxConnections = new JSpinner();
 		spinnerMaxConnections.setBounds(123, 51, 55, 20);
-		spinnerMaxConnections.setValue(10);
+		spinnerMaxConnections.setValue(MAX_THREADS_DEFAULT);
 		frame.getContentPane().add(spinnerMaxConnections);
 		
 		JLabel lblMaxConnections = new JLabel("Max connections : ");
@@ -155,16 +166,38 @@ public class SearchWindow {
 		frame.getContentPane().add(lblMaxConnections);
 		setEnabled(false);
 		openConnectionDialog();
-		MessagesBundle messagesBundle = MessagesBundle.getMessages();
-		System.out.println(messagesBundle.getMessage("database.mysql"));
+		setEnabled(true);
 	}
 
+	private void doSearch(){
+		String expression=Util.clean(textExpression.getText());
+		boolean caseSensitive = chckCaseSensitive.isSelected();
+		boolean wholeExpression = chckWholeExpression.isSelected();
+		boolean trim = chckTrim.isSelected();
+		int maxThreads = (Integer) spinnerMaxConnections.getValue();
+		connectionManager.getComboPooledDataSource().setMaxPoolSize(maxThreads);
+		try {
+			Connection connection = connectionManager.getComboPooledDataSource().getConnection();
+			Statement st = connection.createStatement();
+			ResultSet rs = st.executeQuery("show tables");
+			while(rs.next()){
+				System.out.println(rs.getString(1));
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 	private void openConnectionDialog() {
-		if(connectionPool==null || !connectionPool.isConnected()){
+		if(!connectionManager.isConnected()){
 			JDialog connectionDialog = new ConnectionDialog();
 			connectionDialog.setVisible(true);
 		}
-		
 	}
 
 	public JMenuBar getMenuBar() {
@@ -183,4 +216,16 @@ public class SearchWindow {
 	}
 	
 	
+	protected JCheckBox getChckCaseSensitive() {
+		return chckCaseSensitive;
+	}
+	protected JCheckBox getChckWholeExpression() {
+		return chckWholeExpression;
+	}
+	protected JCheckBox getChckTrim() {
+		return chckTrim;
+	}
+	protected JSpinner getSpinnerMaxConnections() {
+		return spinnerMaxConnections;
+	}
 }

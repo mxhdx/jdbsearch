@@ -36,7 +36,7 @@ public class MessagesBundle {
 		return bundle.getString(message);
 	}
 	
-	public static synchronized MessagesBundle getMessages(){
+	public static synchronized MessagesBundle getInstance(){
 		if(instance == null)
 			instance = new MessagesBundle();
 		return instance;
