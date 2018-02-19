@@ -12,6 +12,7 @@ public class ConnectionManager {
 	private static ConnectionManager instance;
 	private Config config;
 	private ComboPooledDataSource comboPooledDataSource;
+	private DBTypeEnum dbType;
 
 	private ConnectionManager(){
 		config = Config.getConfig();
@@ -71,6 +72,7 @@ public class ConnectionManager {
 		String dbSpecificParameters="";
 		if(DBTypeEnum.MYSQL.symbol().equals(databaseType)){
 			dbSpecificParameters="?useSSL=false&serverTimezone=UTC";
+			dbType = DBTypeEnum.MYSQL;
 		}
 		return prefix+databaseHost+":"+databasePort+"/"+databaseName+dbSpecificParameters;
 	}
@@ -79,6 +81,11 @@ public class ConnectionManager {
 		return config.getProperty("driver." +databaseType);
 	}
 	
+	
+	public DBTypeEnum getDbType() {
+		return dbType;
+	}
+
 	public boolean isConnected(){
 		return false; //TODO
 	}

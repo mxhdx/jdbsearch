@@ -19,9 +19,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import com.tutoref.dbsearch.config.DBTypeEnum;
 import com.tutoref.dbsearch.config.i18n.MessagesBundle;
 import com.tutoref.dbsearch.database.C3P0ConnectionPool;
 import com.tutoref.dbsearch.database.ConnectionManager;
+import com.tutoref.dbsearch.tasks.SearchTask;
 import com.tutoref.dbsearch.util.Util;
 
 import javax.swing.JDialog;
@@ -31,13 +33,22 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.awt.event.ActionEvent;
+import javax.swing.JPanel;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.border.BevelBorder;
+import javax.swing.JProgressBar;
 
 public class SearchWindow {
 
 	private JFrame frame;
 	private JMenuBar menuBar;
 	private JTable tableResults;
+	private DefaultTableModel tableModel;
 	private JTextField textExpression;
 	private ConnectionManager connectionManager;
 	private JCheckBox chckCaseSensitive;
@@ -45,6 +56,9 @@ public class SearchWindow {
 	private JCheckBox chckTrim;
 	private JSpinner spinnerMaxConnections;
 	private int MAX_THREADS_DEFAULT=10;
+	private JPanel panel;
+	private JProgressBar progressBar;
+	private ExecutorService executorService;
 	
 	
 	/**
@@ -76,7 +90,7 @@ public class SearchWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 780, 601);
+		frame.setBounds(100, 100, 780, 625);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		menuBar = new JMenuBar();
@@ -119,6 +133,10 @@ public class SearchWindow {
 		
 		tableResults = new JTable();
 		scrollPane.setViewportView(tableResults);
+		tableModel = new DefaultTableModel(0, 0);
+		String header[] = new String[] { "Table", "Column", "Value"}; 
+		tableModel.setColumnIdentifiers(header);
+		tableResults.setModel(tableModel);
 		
 		textExpression = new JTextField();
 		textExpression.setBounds(123, 20, 270, 20);
@@ -152,6 +170,11 @@ public class SearchWindow {
 		frame.getContentPane().add(lblExpression);
 		
 		JButton btnClear = new JButton("Clear");
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				clearResults();
+			}
+		});
 		btnClear.setBounds(665, 507, 89, 23);
 		frame.getContentPane().add(btnClear);
 		
@@ -164,6 +187,17 @@ public class SearchWindow {
 		lblMaxConnections.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblMaxConnections.setBounds(10, 54, 109, 14);
 		frame.getContentPane().add(lblMaxConnections);
+		
+		panel = new JPanel();
+		panel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel.setBounds(0, 545, 764, 20);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		progressBar = new JProgressBar();
+		progressBar.setBounds(618, 0, 146, 20);
+		progressBar.setVisible(false);
+		panel.add(progressBar);
 		setEnabled(false);
 		openConnectionDialog();
 		setEnabled(true);
@@ -176,22 +210,61 @@ public class SearchWindow {
 		boolean trim = chckTrim.isSelected();
 		int maxThreads = (Integer) spinnerMaxConnections.getValue();
 		connectionManager.getComboPooledDataSource().setMaxPoolSize(maxThreads);
+		executorService= Executors.newFixedThreadPool(1);
+		progressBar.setVisible(true);
+		progressBar.setValue(0);
+		Connection connection;
 		try {
-			Connection connection = connectionManager.getComboPooledDataSource().getConnection();
-			Statement st = connection.createStatement();
-			ResultSet rs = st.executeQuery("show tables");
-			while(rs.next()){
-				System.out.println(rs.getString(1));
+			connection = connectionManager.getComboPooledDataSource().getConnection();
+			Statement stTables = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ResultSet rsTables = stTables.executeQuery(getListTablesQuery(connectionManager.getDbType()));
+			int nbTables = Util.getNumberOfResultsFromResutSet(rsTables);
+			rsTables.beforeFirst();
+			progressBar.setMaximum(nbTables);
+			while(rsTables.next()){
+				String tableName = rsTables.getString(1);
+				final Future<Object> searchTask=executorService.submit(new SearchTask(connection, expression, caseSensitive, wholeExpression, trim, tableName, tableModel, progressBar));
 			}
-			
-			
+			//executorService.shutdownNow();
 			
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
 	}
+	
+	private String getListTablesQuery(DBTypeEnum dbType) {
+		String req=null;
+		switch(dbType){
+		case MYSQL:
+			req="show tables";
+			break;
+		default:
+			// N.A
+		}
+		return req;
+	}
+
+
+	
+	private void clearResults(){
+		tableModel.getDataVector().removeAllElements();
+		tableModel.fireTableDataChanged();
+	}
+	
+
+
+	private void doOracleSearch(){
+		// TODO
+	}
+	
+	private void doPostgreSQLSearch(){
+		// TODO
+	}
+	
+	
 	
 	private void openConnectionDialog() {
 		if(!connectionManager.isConnected()){
@@ -227,5 +300,12 @@ public class SearchWindow {
 	}
 	protected JSpinner getSpinnerMaxConnections() {
 		return spinnerMaxConnections;
+	}
+	
+	protected JPanel getPanel() {
+		return panel;
+	}
+	protected JProgressBar getProgressBar() {
+		return progressBar;
 	}
 }

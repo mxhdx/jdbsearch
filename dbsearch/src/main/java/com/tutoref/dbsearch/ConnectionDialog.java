@@ -184,6 +184,12 @@ public class ConnectionDialog extends JDialog {
 			progressBar.setMaximum(100);
 			progressBar.setVisible(false);
 			mainPanel.add(progressBar);
+			// TODO, remove me
+			textHostname.setText("localhost");
+			textDatabaseName.setText("wpdemo");
+			textPortNumber.setText("3306");
+			textUsername.setText("root");
+			textPassword.setText("dbEYKog58+");
 		}
 	}
 	
