@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -210,7 +211,7 @@ public class SearchWindow {
 		boolean trim = chckTrim.isSelected();
 		int maxThreads = (Integer) spinnerMaxConnections.getValue();
 		connectionManager.getComboPooledDataSource().setMaxPoolSize(maxThreads);
-		executorService= Executors.newFixedThreadPool(1);
+		executorService= Executors.newFixedThreadPool(maxThreads);
 		progressBar.setVisible(true);
 		progressBar.setValue(0);
 		Connection connection;
@@ -223,12 +224,11 @@ public class SearchWindow {
 			progressBar.setMaximum(nbTables);
 			while(rsTables.next()){
 				String tableName = rsTables.getString(1);
-				final Future<Object> searchTask=executorService.submit(new SearchTask(connection, expression, caseSensitive, wholeExpression, trim, tableName, tableModel, progressBar));
-			}
-			//executorService.shutdownNow();
-			
+				final Future<Object> searchTask=executorService.submit(new SearchTask(connectionManager, expression, caseSensitive, wholeExpression, trim, tableName, tableModel, progressBar));
+			} // TODO
+			setEnabled(true);
+			JOptionPane.showConfirmDialog(frame, "Search completed","Search completed",JOptionPane.INFORMATION_MESSAGE);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -250,21 +250,12 @@ public class SearchWindow {
 
 	
 	private void clearResults(){
-		tableModel.getDataVector().removeAllElements();
-		tableModel.fireTableDataChanged();
+		int dialogResult = JOptionPane.showConfirmDialog(frame, "Do you really want to clear all the results ?","Confirm",JOptionPane.YES_NO_OPTION);
+		if(dialogResult == JOptionPane.YES_OPTION){
+			tableModel.getDataVector().removeAllElements();
+			tableModel.fireTableDataChanged();
+		}
 	}
-	
-
-
-	private void doOracleSearch(){
-		// TODO
-	}
-	
-	private void doPostgreSQLSearch(){
-		// TODO
-	}
-	
-	
 	
 	private void openConnectionDialog() {
 		if(!connectionManager.isConnected()){
@@ -308,4 +299,8 @@ public class SearchWindow {
 	protected JProgressBar getProgressBar() {
 		return progressBar;
 	}
+	
+	
 }
+
+

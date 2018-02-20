@@ -128,7 +128,7 @@ public class ConnectionDialog extends JDialog {
 						public void run() {
 							getProgressBar().setVisible(true);
 							getProgressBar().setValue(50);
-							setFieldEnabled(false);
+							setFieldsEnabled(false);
 							try {
 								if(connectionManager.testConnectionParameters(Util.clean(String.valueOf(comboDatabaseType.getSelectedItem())), Util.clean(textHostname.getText()), Util.clean(textPortNumber.getText()), Util.clean(textDatabaseName.getText()), Util.clean(textUsername.getText()), Util.clean(textPassword.getText()))){
 									JOptionPane.showMessageDialog(getContentPane(), messagesBundle.getMessage("db.informations.valid"), messagesBundle.getMessage("Success"), JOptionPane.INFORMATION_MESSAGE);
@@ -140,7 +140,7 @@ public class ConnectionDialog extends JDialog {
 							} finally{
 								getProgressBar().setValue(100);
 								getProgressBar().setVisible(false);
-								setFieldEnabled(true);
+								setFieldsEnabled(true);
 							}
 							
 						}
@@ -158,7 +158,7 @@ public class ConnectionDialog extends JDialog {
 						public void run() {
 							getProgressBar().setVisible(true);
 							getProgressBar().setValue(50);
-							setFieldEnabled(false);
+							setFieldsEnabled(false);
 							try {
 								connectionManager.createConnectionPool(Util.clean(String.valueOf(comboDatabaseType.getSelectedItem())), Util.clean(textHostname.getText()), Util.clean(textPortNumber.getText()), Util.clean(textDatabaseName.getText()), Util.clean(textUsername.getText()), Util.clean(textPassword.getText()));
 								getProgressBar().setValue(0);
@@ -169,7 +169,7 @@ public class ConnectionDialog extends JDialog {
 							} finally{
 								getProgressBar().setValue(100);
 								getProgressBar().setVisible(false);
-								setFieldEnabled(true);
+								setFieldsEnabled(true);
 							}
 						}
 					}).start();
@@ -202,7 +202,7 @@ public class ConnectionDialog extends JDialog {
 	 * 
 	 * @param enabled boolean if true, enable all the components in the main JPanel, otherwise disable them.
 	 */
-	private void setFieldEnabled(boolean enabled){
+	private void setFieldsEnabled(boolean enabled){
 		for(Component component: mainPanel.getComponents()){
 			component.setEnabled(enabled);
 		}

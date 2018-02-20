@@ -8,11 +8,12 @@ import java.util.concurrent.Callable;
 import javax.swing.JProgressBar;
 import javax.swing.table.DefaultTableModel;
 
+import com.tutoref.dbsearch.database.ConnectionManager;
 import com.tutoref.dbsearch.util.Util;
 
 public class SearchTask implements Callable{
 	
-	private Connection connection;
+	private ConnectionManager connectionManager;
 	private String expression;
 	private boolean caseSensitive;
 	private boolean wholeExpression;
@@ -21,8 +22,8 @@ public class SearchTask implements Callable{
 	private DefaultTableModel tableModel;
 	private JProgressBar progressBar;
 	
-	public SearchTask(Connection connection, String expression, boolean caseSensitive, boolean wholeExpression, boolean trim, String tableName, DefaultTableModel tableModel, JProgressBar progressBar){
-		this.connection=connection;
+	public SearchTask(ConnectionManager connectionManager, String expression, boolean caseSensitive, boolean wholeExpression, boolean trim, String tableName, DefaultTableModel tableModel, JProgressBar progressBar){
+		this.connectionManager=connectionManager;
 		this.expression=expression;
 		this.caseSensitive=caseSensitive;
 		this.wholeExpression=wholeExpression;
@@ -34,6 +35,7 @@ public class SearchTask implements Callable{
 
 	public Object call() throws Exception {
 		Thread.sleep(2000l);
+		Connection connection = connectionManager.getComboPooledDataSource().getConnection();
 		Statement st = connection.createStatement();
 		String reqTable ="SELECT * FROM "+tableName;
 		ResultSet rs = st.executeQuery(reqTable);
@@ -61,6 +63,15 @@ public class SearchTask implements Callable{
 				}
 			}
 			progressBar.setValue(progressBar.getValue()+1);
+		}
+		if(!rs.isClosed()){
+			rs.close();
+		}
+		if(!st.isClosed()){
+			st.close();
+		}
+		if(!connection.isClosed()){
+			connection.close();
 		}
 		return null;
 	}
