@@ -22,6 +22,8 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -40,19 +42,8 @@ public class ConnectionDialog extends JDialog {
 	private JProgressBar progressBar;
 	private MessagesBundle messagesBundle;
 	private JPanel mainPanel;
+	private boolean connectionSuccessful;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			ConnectionDialog dialog = new ConnectionDialog();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.
@@ -124,8 +115,8 @@ public class ConnectionDialog extends JDialog {
 			JButton testButton = new JButton("Test");
 			testButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					new Thread(new Runnable() {
-						public void run() {
+					//new Thread(new Runnable() {
+						//public void run() {
 							getProgressBar().setVisible(true);
 							getProgressBar().setValue(50);
 							setFieldsEnabled(false);
@@ -143,8 +134,8 @@ public class ConnectionDialog extends JDialog {
 								setFieldsEnabled(true);
 							}
 							
-						}
-					}).start();
+						//}
+					//}).start();
 					
 				}
 			});
@@ -167,6 +158,7 @@ public class ConnectionDialog extends JDialog {
 								JOptionPane.showMessageDialog(getContentPane(), messagesBundle.getMessage("db.informations.not.valid")+":\n"+Util.getRootException(e).getLocalizedMessage(), messagesBundle.getMessage("Failed"), JOptionPane.ERROR_MESSAGE);
 								getProgressBar().setValue(0);
 							} finally{
+								connectionSuccessful=true;
 								getProgressBar().setValue(100);
 								getProgressBar().setVisible(false);
 								setFieldsEnabled(true);
@@ -184,6 +176,7 @@ public class ConnectionDialog extends JDialog {
 			progressBar.setMaximum(100);
 			progressBar.setVisible(false);
 			mainPanel.add(progressBar);
+
 			// TODO, remove me
 			textHostname.setText("localhost");
 			textDatabaseName.setText("wpdemo");
@@ -207,4 +200,9 @@ public class ConnectionDialog extends JDialog {
 			component.setEnabled(enabled);
 		}
 	}
+
+	public boolean isConnectionSuccessful() {
+		return connectionSuccessful;
+	}	
+	
 }

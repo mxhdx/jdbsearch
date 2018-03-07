@@ -60,7 +60,7 @@ public class SearchWindow {
 	private JPanel panel;
 	private JProgressBar progressBar;
 	private ExecutorService executorService;
-	
+	private ConnectionDialog connectionDialog;
 	
 	/**
 	 * Launch the application.
@@ -202,6 +202,10 @@ public class SearchWindow {
 		setEnabled(false);
 		openConnectionDialog();
 		setEnabled(true);
+		if(!connectionDialog.isConnectionSuccessful()){
+			System.exit(0);
+		}
+		
 	}
 
 	private void doSearch(){
@@ -258,10 +262,8 @@ public class SearchWindow {
 	}
 	
 	private void openConnectionDialog() {
-		if(!connectionManager.isConnected()){
-			JDialog connectionDialog = new ConnectionDialog();
-			connectionDialog.setVisible(true);
-		}
+		connectionDialog = new ConnectionDialog();
+		connectionDialog.setVisible(true);
 	}
 
 	public JMenuBar getMenuBar() {

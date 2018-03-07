@@ -86,7 +86,4 @@ public class ConnectionManager {
 		return dbType;
 	}
 
-	public boolean isConnected(){
-		return false; //TODO
-	}
 }
