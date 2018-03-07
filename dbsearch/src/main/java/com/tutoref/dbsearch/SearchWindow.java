@@ -214,7 +214,7 @@ public class SearchWindow {
 		boolean wholeExpression = chckWholeExpression.isSelected();
 		boolean trim = chckTrim.isSelected();
 		int maxThreads = (Integer) spinnerMaxConnections.getValue();
-		connectionManager.getComboPooledDataSource().setMaxPoolSize(maxThreads);
+		connectionManager.getComboPooledDataSource().setMaxPoolSize(maxThreads);		
 		executorService= Executors.newFixedThreadPool(maxThreads);
 		progressBar.setVisible(true);
 		progressBar.setValue(0);
@@ -231,7 +231,7 @@ public class SearchWindow {
 				final Future<Object> searchTask=executorService.submit(new SearchTask(connectionManager, expression, caseSensitive, wholeExpression, trim, tableName, tableModel, progressBar));
 			} // TODO
 			setEnabled(true);
-			JOptionPane.showConfirmDialog(frame, "Search completed","Search completed",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "Search completed","Search completed",JOptionPane.INFORMATION_MESSAGE);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

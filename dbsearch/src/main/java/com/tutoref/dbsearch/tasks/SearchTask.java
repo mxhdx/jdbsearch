@@ -34,7 +34,7 @@ public class SearchTask implements Callable{
 	}
 
 	public Object call() throws Exception {
-		Thread.sleep(2000l);
+		Thread.sleep(1000L);
 		Connection connection = connectionManager.getComboPooledDataSource().getConnection();
 		Statement st = connection.createStatement();
 		String reqTable ="SELECT * FROM "+tableName;
@@ -44,8 +44,8 @@ public class SearchTask implements Callable{
 			for(int i=1;i<=nbColumns;i++){
 				if(Util.isBlobType(rs.getMetaData().getColumnType(i))) continue;
 				String value=rs.getString(i);
-				String displayValue=value.toString();
 				if(value == null) continue;
+				String displayValue=value.toString();
 				if(!caseSensitive){
 					expression = expression.toUpperCase();
 					value = value.toUpperCase();
@@ -64,13 +64,13 @@ public class SearchTask implements Callable{
 			}
 			progressBar.setValue(progressBar.getValue()+1);
 		}
-		if(!rs.isClosed()){
+		if(rs!=null){
 			rs.close();
 		}
-		if(!st.isClosed()){
+		if(st!=null){
 			st.close();
 		}
-		if(!connection.isClosed()){
+		if(connection!=null){
 			connection.close();
 		}
 		return null;
