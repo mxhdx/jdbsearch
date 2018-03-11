@@ -11,4 +11,7 @@ DBSearch allows to refine the search by letting the user choose from the followi
 
 The tool is actually limited to MySQL, Oracle and POSTGRES DBMSs, but we will add other databases in the future and we invite everyone to contribute in this project.  
 
-Binaries are available for download under the releases tab : https://github.com/tutoref/dbsearch/releases .
+Binaries are available for download under the releases tab or on the given web page :
+https://github.com/tutoref/dbsearch/releases
+https://tutoref.com/dbsearch-find-an-expression-anywhere-in-a-database/
+
