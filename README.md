@@ -12,6 +12,10 @@ JDBSearch allows to refine the search by letting the user choose from the follow
 The tool is actually limited to MySQL, Oracle and POSTGRES DBMSs, but we will add other databases in the future and we invite everyone to contribute in this project.  
 
 Binaries are available for download under the releases tab or on the given web page :  
-https://github.com/tutoref/jdbsearch/releases  
-https://tutoref.com/jdbsearch-find-an-expression-anywhere-in-a-database/  
+https://github.com/tutoref/jdbsearch/releases/tag/v1.0
+https://tutoref.com/jdbsearch-find-an-expression-anywhere-in-a-database  
+
+Windows binaries are built with Launch4j  
+launch4j.sourceforge.net
+
 
