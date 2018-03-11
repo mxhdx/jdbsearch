@@ -64,7 +64,7 @@
 	      <configuration>
 	        <archive>
 	          <manifest>
-	            <mainClass>com.tutoref.dbsearch.ui.SearchWindow</mainClass>
+	            <mainClass>com.tutoref.jdbsearch.ui.SearchWindow</mainClass>
 	          </manifest>
 	          <manifestEntries>
 		      	<Class-Path>.</Class-Path>
