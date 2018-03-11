@@ -4,7 +4,7 @@
 
   <groupId>com.tutoref</groupId>
   <artifactId>dbsearch</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>v1.0</version>
   <packaging>jar</packaging>
 
   <name>dbsearch</name>
@@ -43,8 +43,6 @@
 	</dependency>
   </dependencies>
 
-  
-  
   <repositories>
   	<repository>
   		<id>oracle-jdbc-repo</id>
@@ -59,4 +57,24 @@
   		<url>https://mvnrepository.com/artifact/org.postgresql/postgresql</url>
   	</repository>
   </repositories>
+	<build>
+	  <plugins>
+	    <plugin>
+	      <artifactId>maven-assembly-plugin</artifactId>
+	      <configuration>
+	        <archive>
+	          <manifest>
+	            <mainClass>com.tutoref.dbsearch.ui.SearchWindow</mainClass>
+	          </manifest>
+	          <manifestEntries>
+		      	<Class-Path>.</Class-Path>
+		      </manifestEntries>
+	        </archive>
+	        <descriptorRefs>
+	          <descriptorRef>jar-with-dependencies</descriptorRef>
+	        </descriptorRefs>
+	      </configuration>
+	    </plugin>
+	  </plugins>
+	</build>
 </project>

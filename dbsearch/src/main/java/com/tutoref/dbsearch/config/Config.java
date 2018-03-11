@@ -25,7 +25,7 @@ public class Config {
 	private Config(){
 		try{
 			properties = new Properties();
-			properties.load(Config.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE_PATH));
+			properties.load(getClass().getClassLoader().getResourceAsStream(PROPERTIES_FILE_PATH));
 		}catch (IOException e) {
 			JOptionPane.showMessageDialog(null,e.getMessage(),"Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();

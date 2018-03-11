@@ -64,9 +64,10 @@ public class ConnectionDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ConnectionDialog() {
+	public ConnectionDialog() {	
 		connectionManager = ConnectionManager.getInstance();
 		messagesBundle = MessagesBundle.getInstance();
+		setTitle(messagesBundle.getMessage("ui.title"));
 		setModal(true);
 		setBounds(100, 100, 450, 307);
 		getContentPane().setLayout(new BorderLayout());

@@ -147,6 +147,7 @@ public class SearchWindow {
 	private void initialize() {
 		messagesBundle = MessagesBundle.getInstance();
 		frame = new JFrame();
+		frame.setTitle(messagesBundle.getMessage("ui.title"));
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 780, 625);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
