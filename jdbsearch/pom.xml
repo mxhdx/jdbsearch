@@ -3,12 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.tutoref</groupId>
-  <artifactId>dbsearch</artifactId>
+  <artifactId>jdbsearch</artifactId>
   <version>v1.0</version>
   <packaging>jar</packaging>
 
-  <name>dbsearch</name>
-  <url>http://dbsearch.tutoref.com</url>
+  <name>jdbsearch</name>
+  <url>https://tutoref.com/jdbsearch-find-an-expression-anywhere-in-a-database/</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
