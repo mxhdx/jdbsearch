@@ -9,4 +9,6 @@ DBSearch allows to refine the search by letting the user choose from the followi
 • Ability to search for whole expressions or expressions included in others (LIKE %%);  
 • Remove unwanted spaces added by DBMS.  
 
-The tool is actually limited to MySQL, Oracle and POSTGRES DBMSs, but we will add other databases in the future and we invite everyone to contribute in this project.
+The tool is actually limited to MySQL, Oracle and POSTGRES DBMSs, but we will add other databases in the future and we invite everyone to contribute in this project.  
+
+Binaries are available for download under the releases tab : https://github.com/tutoref/dbsearch/releases .
