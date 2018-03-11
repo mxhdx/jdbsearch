@@ -32,9 +32,9 @@
 	    <version>6.0.6</version>
 	</dependency>
 	<dependency>
-	    <groupId>postgresql</groupId>
-	    <artifactId>postgresql</artifactId>
-	    <version>9.1-901-1.jdbc4</version>
+	    <groupId>org.postgresql</groupId>
+    	<artifactId>postgresql</artifactId>
+	    <version>42.2.1</version>
 	</dependency>
 	<dependency>
 	    <groupId>c3p0</groupId>
@@ -53,6 +53,10 @@
   	<repository>
   		<id>c3p0-repo</id>
   		<url>https://mvnrepository.com/artifact/c3p0/c3p0</url>
+  	</repository>
+  	<repository>
+  		<id>postgres-repo</id>
+  		<url>https://mvnrepository.com/artifact/org.postgresql/postgresql</url>
   	</repository>
   </repositories>
 </project>

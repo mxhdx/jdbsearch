@@ -1,16 +1,13 @@
-package com.tutoref.dbsearch;
+package com.tutoref.dbsearch.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.FlowLayout;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.tutoref.dbsearch.config.DBTypeEnum;
 import com.tutoref.dbsearch.config.i18n.MessagesBundle;
 import com.tutoref.dbsearch.database.ConnectionManager;
@@ -22,26 +19,46 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.beans.PropertyVetoException;
-import java.sql.SQLException;
-import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import javax.swing.JProgressBar;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ConnectionDialog.
+ */
 public class ConnectionDialog extends JDialog {
 	
+	/** The combo database type. */
 	JComboBox<String> comboDatabaseType;
+	
+	/** The text hostname. */
 	private JTextField textHostname;
+	
+	/** The text port number. */
 	private JTextField textPortNumber;
+	
+	/** The text database name. */
 	private JTextField textDatabaseName;
+	
+	/** The text username. */
 	private JTextField textUsername;
+	
+	/** The text password. */
 	private JPasswordField textPassword;
+	
+	/** The connection manager. */
 	private ConnectionManager connectionManager;
+	
+	/** The progress bar. */
 	private JProgressBar progressBar;
+	
+	/** The messages bundle. */
 	private MessagesBundle messagesBundle;
+	
+	/** The main panel. */
 	private JPanel mainPanel;
+	
+	/** The connection successful. */
 	private boolean connectionSuccessful;
 	
 
@@ -59,74 +76,74 @@ public class ConnectionDialog extends JDialog {
 			getContentPane().add(mainPanel, BorderLayout.CENTER);
 			mainPanel.setLayout(null);
 			
-			JLabel label = new JLabel("Database type : ");
-			label.setBounds(69, 33, 103, 14);
+			JLabel label = new JLabel(messagesBundle.getMessage("ui.database.type")+" : ");
+			label.setBounds(32, 33, 140, 14);
 			mainPanel.add(label);
 			
 			comboDatabaseType = new JComboBox<String>();
 			comboDatabaseType.setModel(new DefaultComboBoxModel(DBTypeEnum.MYSQL.values()));
-			comboDatabaseType.setBounds(182, 30, 191, 20);
+			comboDatabaseType.setBounds(182, 30, 203, 20);
 			mainPanel.add(comboDatabaseType);
 			
 			textHostname = new JTextField();
 			textHostname.setColumns(10);
-			textHostname.setBounds(182, 61, 191, 20);
+			textHostname.setBounds(182, 61, 203, 20);
 			mainPanel.add(textHostname);
 			
-			JLabel label_1 = new JLabel("Hostname : ");
-			label_1.setBounds(69, 64, 103, 14);
+			JLabel label_1 = new JLabel(messagesBundle.getMessage("ui.hostname")+" : ");
+			label_1.setBounds(32, 64, 140, 14);
 			mainPanel.add(label_1);
 			
 			textPortNumber = new JTextField();
 			textPortNumber.setColumns(10);
-			textPortNumber.setBounds(182, 92, 191, 20);
+			textPortNumber.setBounds(182, 92, 203, 20);
 			mainPanel.add(textPortNumber);
 			
-			JLabel label_2 = new JLabel("Port number : ");
-			label_2.setBounds(69, 95, 103, 14);
+			JLabel label_2 = new JLabel(messagesBundle.getMessage("ui.port.number")+" : ");
+			label_2.setBounds(32, 95, 140, 14);
 			mainPanel.add(label_2);
 			
 			textDatabaseName = new JTextField();
 			textDatabaseName.setColumns(10);
-			textDatabaseName.setBounds(182, 123, 191, 20);
+			textDatabaseName.setBounds(182, 123, 203, 20);
 			mainPanel.add(textDatabaseName);
 			
-			JLabel label_3 = new JLabel("Database name : ");
-			label_3.setBounds(69, 126, 103, 14);
+			JLabel label_3 = new JLabel(messagesBundle.getMessage("ui.database.name")+" : ");
+			label_3.setBounds(32, 126, 140, 14);
 			mainPanel.add(label_3);
 			
-			JLabel label_4 = new JLabel("Username : ");
-			label_4.setBounds(69, 157, 103, 14);
+			JLabel label_4 = new JLabel(messagesBundle.getMessage("ui.username")+" : ");
+			label_4.setBounds(32, 157, 140, 14);
 			mainPanel.add(label_4);
 			
 			textUsername = new JTextField();
 			textUsername.setColumns(10);
-			textUsername.setBounds(182, 154, 191, 20);
+			textUsername.setBounds(182, 154, 203, 20);
 			mainPanel.add(textUsername);
 			
 			textPassword = new JPasswordField();
-			textPassword.setBounds(182, 185, 191, 20);
+			textPassword.setBounds(182, 185, 203, 20);
 			mainPanel.add(textPassword);
 			
-			JLabel label_5 = new JLabel("Password : ");
-			label_5.setBounds(69, 188, 103, 14);
+			JLabel label_5 = new JLabel(messagesBundle.getMessage("ui.password")+" : ");
+			label_5.setBounds(32, 188, 140, 14);
 			mainPanel.add(label_5);
 			
-			JButton testButton = new JButton("Test");
+			JButton testButton = new JButton(messagesBundle.getMessage("ui.test"));
 			testButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					//new Thread(new Runnable() {
-						//public void run() {
+					new Thread(new Runnable() {
+						public void run() {
 							getProgressBar().setVisible(true);
 							getProgressBar().setValue(50);
 							setFieldsEnabled(false);
 							try {
 								if(connectionManager.testConnectionParameters(Util.clean(String.valueOf(comboDatabaseType.getSelectedItem())), Util.clean(textHostname.getText()), Util.clean(textPortNumber.getText()), Util.clean(textDatabaseName.getText()), Util.clean(textUsername.getText()), Util.clean(textPassword.getText()))){
-									JOptionPane.showMessageDialog(getContentPane(), messagesBundle.getMessage("db.informations.valid"), messagesBundle.getMessage("Success"), JOptionPane.INFORMATION_MESSAGE);
+									JOptionPane.showMessageDialog(getContentPane(), messagesBundle.getMessage("db.informations.valid"), messagesBundle.getMessage("success"), JOptionPane.INFORMATION_MESSAGE);
 									getProgressBar().setValue(0);
 								}
 							} catch (Exception e) {
-								JOptionPane.showMessageDialog(getContentPane(), messagesBundle.getMessage("db.informations.not.valid")+":\n"+Util.getRootException(e).getLocalizedMessage(), messagesBundle.getMessage("Failed"), JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(getContentPane(), messagesBundle.getMessage("db.informations.not.valid")+":\n"+Util.getRootException(e).getLocalizedMessage(), messagesBundle.getMessage("error"), JOptionPane.ERROR_MESSAGE);
 								getProgressBar().setValue(0);
 							} finally{
 								getProgressBar().setValue(100);
@@ -134,15 +151,15 @@ public class ConnectionDialog extends JDialog {
 								setFieldsEnabled(true);
 							}
 							
-						//}
-					//}).start();
+						}
+					}).start();
 					
 				}
 			});
-			testButton.setBounds(192, 216, 89, 23);
+			testButton.setBounds(182, 216, 95, 23);
 			mainPanel.add(testButton);
 			
-			JButton connectButton = new JButton("Connect");
+			JButton connectButton = new JButton(messagesBundle.getMessage("ui.connect"));
 			connectButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					new Thread(new Runnable() {
@@ -155,7 +172,7 @@ public class ConnectionDialog extends JDialog {
 								getProgressBar().setValue(0);
 								setVisible(false);
 							} catch (Exception e) {
-								JOptionPane.showMessageDialog(getContentPane(), messagesBundle.getMessage("db.informations.not.valid")+":\n"+Util.getRootException(e).getLocalizedMessage(), messagesBundle.getMessage("Failed"), JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(getContentPane(), messagesBundle.getMessage("db.informations.not.valid")+":\n"+Util.getRootException(e).getLocalizedMessage(), messagesBundle.getMessage("error"), JOptionPane.ERROR_MESSAGE);
 								getProgressBar().setValue(0);
 							} finally{
 								connectionSuccessful=true;
@@ -167,7 +184,7 @@ public class ConnectionDialog extends JDialog {
 					}).start();
 				}
 			});
-			connectButton.setBounds(284, 216, 89, 23);
+			connectButton.setBounds(281, 216, 104, 23);
 			mainPanel.add(connectButton);
 			
 			progressBar = new JProgressBar();
@@ -179,13 +196,19 @@ public class ConnectionDialog extends JDialog {
 
 			// TODO, remove me
 			textHostname.setText("localhost");
-			textDatabaseName.setText("wpdemo");
-			textPortNumber.setText("3306");
-			textUsername.setText("root");
-			textPassword.setText("dbEYKog58+");
+			textDatabaseName.setText("postgres");
+			textPortNumber.setText("5432");
+			textUsername.setText("postgres");
+			textPassword.setText("");
+			comboDatabaseType.setSelectedIndex(2);
 		}
 	}
 	
+	/**
+	 * Gets the progress bar.
+	 *
+	 * @return the progress bar
+	 */
 	public JProgressBar getProgressBar() {
 		return progressBar;
 	}
@@ -201,6 +224,11 @@ public class ConnectionDialog extends JDialog {
 		}
 	}
 
+	/**
+	 * Checks if is connection successful.
+	 *
+	 * @return true, if is connection successful
+	 */
 	public boolean isConnectionSuccessful() {
 		return connectionSuccessful;
 	}	
