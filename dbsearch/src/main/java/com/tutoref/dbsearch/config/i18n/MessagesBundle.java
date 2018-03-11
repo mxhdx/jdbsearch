@@ -7,9 +7,8 @@ import javax.swing.JOptionPane;
 
 
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class MessagesBundle.
+ * The Class MessagesBundle. Loads the localized strings from the messages text file.
  */
 public class MessagesBundle {
 	

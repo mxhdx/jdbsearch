@@ -7,9 +7,8 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.tutoref.dbsearch.config.Config;
 import com.tutoref.dbsearch.config.DBTypeEnum;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ConnectionManager.
+ * The Class ConnectionManager. Manages the connections and handles the database operations.
  */
 public class ConnectionManager {
 

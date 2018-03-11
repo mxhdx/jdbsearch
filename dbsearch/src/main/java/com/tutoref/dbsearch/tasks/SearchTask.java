@@ -11,9 +11,8 @@ import javax.swing.table.DefaultTableModel;
 import com.tutoref.dbsearch.database.ConnectionManager;
 import com.tutoref.dbsearch.util.Util;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class SearchTask.
+ * The Class SearchTask. Represents a Task, every task is a single thread.
  */
 public class SearchTask implements Callable{
 	
@@ -100,7 +99,7 @@ public class SearchTask implements Callable{
 			progressBar.setValue(progressBar.getValue()+1);
 		}
 		
-		
+		// free resources
 		if(rs!=null){
 			rs.close();
 		}

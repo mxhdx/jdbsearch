@@ -5,7 +5,6 @@ import java.util.Properties;
 
 import javax.swing.JOptionPane;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Config.
  */
@@ -35,7 +34,7 @@ public class Config {
 	
 	
 	/**
-	 * Gets the property.
+	 * Gets a property from the config file.
 	 *
 	 * @param name the name
 	 * @return the property
@@ -45,7 +44,7 @@ public class Config {
 	}
 	
 	/**
-	 * Gets the config.
+	 * Gets the Config class instance.
 	 *
 	 * @return the config
 	 */

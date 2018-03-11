@@ -5,9 +5,8 @@ import java.sql.SQLException;
 
 import com.tutoref.dbsearch.config.DBTypeEnum;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Util.
+ * The Class Util. Reprensents an utility class offering many useful functions.
  */
 public class Util {
 	

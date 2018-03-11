@@ -48,9 +48,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.JProgressBar;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class SearchWindow.
+ * The Class SearchWindow. This is the main window of the application and the entry point.
+ * Represents the search window.
  */
 public class SearchWindow {
 	
@@ -292,7 +292,7 @@ public class SearchWindow {
 	}
 
 	/**
-	 * Do search.
+	 * The search function. Gets the choices from the screen and lanches search tasks (threads) using the ExecutorService.
 	 */
 	private void doSearch(){
 		String expression=Util.clean(textExpression.getText());

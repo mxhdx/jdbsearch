@@ -22,9 +22,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JProgressBar;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ConnectionDialog.
+ * The Class ConnectionDialog. Represents the Connection Dialog where the user enters and validates the database informations.
  */
 public class ConnectionDialog extends JDialog {
 	
@@ -193,14 +192,6 @@ public class ConnectionDialog extends JDialog {
 			progressBar.setMaximum(100);
 			progressBar.setVisible(false);
 			mainPanel.add(progressBar);
-
-			// TODO, remove me
-			textHostname.setText("localhost");
-			textDatabaseName.setText("postgres");
-			textPortNumber.setText("5432");
-			textUsername.setText("postgres");
-			textPassword.setText("");
-			comboDatabaseType.setSelectedIndex(2);
 		}
 	}
 	

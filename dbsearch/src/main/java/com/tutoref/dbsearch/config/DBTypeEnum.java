@@ -1,18 +1,12 @@
 package com.tutoref.dbsearch.config;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Enum DBTypeEnum.
  */
 public enum DBTypeEnum {
 	
-     /** The mysql. */
      MYSQL("mysql"),
-     
-     /** The oracle. */
      ORACLE("oracle"),
-     
-     /** The postgresql. */
      POSTGRESQL("postgresql");
      
      /** The symbol. */
