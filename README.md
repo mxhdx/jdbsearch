@@ -7,7 +7,7 @@ JDBSearch allows to refine the search by letting the user choose from the follow
 • Control the number of parallel searches (multi-threading);  
 • Enabling or disabling case sensitivity;  
 • Ability to search for whole expressions or expressions included in others (LIKE %%);  
-• Remove unwanted spaces added by DBMS.  
+• Remove unwanted spaces added by DBMS when doing comparison.  
 
 The tool is actually limited to MySQL, Oracle and POSTGRES DBMSs, but we will add other databases in the future and we invite everyone to contribute in this project.  
 
